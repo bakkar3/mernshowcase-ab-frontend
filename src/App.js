@@ -1,4 +1,9 @@
 import { useState, useEffect } from "react";
+import { Routes, Route } from "react-router-dom";
+import Nav from "./components/Nav";
+import PageWelcome from "./pages/PageWelcome";
+import PageRegister from "./pages/PageRegister";
+import PageLogin from "./pages/PageLogin";
 import "./App.scss";
 
 function App() {
@@ -16,7 +21,7 @@ function App() {
   const [signupFormField_lastName, setSignupFormField_lastName] = useState("");
   const [signupFormField_email, setSignupFormField_email] = useState("");
 
-  // const [notYetApprovedUsers, setNotYetApprovedUsers] = useState([]);
+  const [notYetApprovedUsers, setNotYetApprovedUsers] = useState([]);
 
   useEffect(() => {
     (async () => {
@@ -34,6 +39,7 @@ function App() {
         const _currentUser = await response.json();
         setCurrentUser((prev) => ({ ...prev, ..._currentUser }));
       }
+      loadNotYetApprovedUsers();
     })();
   }, []);
 
@@ -55,7 +61,7 @@ function App() {
     setPassword(_password);
   };
 
-  const handleButton = async (e) => {
+  const handleLoginButton = async (e) => {
     e.preventDefault();
     const requestOptions = {
       method: "POST",
@@ -74,7 +80,39 @@ function App() {
     }
   };
 
-  const handleLogout = async (e) => {
+  const handleApproveUserButton = async (id) => {
+    const requestOptions = {
+      method: "POST",
+      credentials: "include",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ id }),
+    };
+
+    const response = await fetch(
+      "http://localhost:3003/approveuser",
+      requestOptions
+    );
+    if (response.ok) {
+      await response.json();
+      loadNotYetApprovedUsers();
+    }
+  };
+  const loadNotYetApprovedUsers = async () => {
+    const requestOptions = {
+      method: "GET",
+      credentials: "include",
+    };
+    const response = await fetch(
+      "http://localhost:3003/notyetapprovedusers",
+      requestOptions
+    );
+    if (response.ok) {
+      const data = await response.json();
+      setNotYetApprovedUsers((prev) => [...data.users]);
+    }
+  };
+
+  const handleLogoutButton = async (e) => {
     const requestOptions = {
       method: "GET",
       credentials: "include",
@@ -153,18 +191,24 @@ function App() {
         <>
           <h1>MERN Showcase App</h1>
 
+      
+          <Nav/>
+            <Routes>
+              <Route path="/" element={<PageWelcome />} />
+              <Route path="register" element={<PageRegister />} />
+              <Route path="login" element={<PageLogin />} />
+            </Routes>
+      
           {currentUserIsInGroup("loggedInUsers") && (
             <h2>
               {currentUser.firstName} {currentUser.lastName}
             </h2>
           )}
-
           {/* {currentUserIsInGroup("loggedInUsers") && ( */}
-            <div>
-              <button onClick={handleLogout}>Logout</button>
-            </div>
+          <div>
+            <button onClick={handleLogoutButton}>Logout</button>
+          </div>
           {/* )} */}
-
           {currentUserIsInGroup("loggedOutUsers") && (
             <>
               <form>
@@ -189,7 +233,7 @@ function App() {
                     />
                   </div>
                   <div className="buttonRow">
-                    <button onClick={handleButton}>Submit</button>
+                    <button onClick={handleLoginButton}>Submit</button>
                   </div>
                 </fieldset>
               </form>
@@ -205,6 +249,8 @@ function App() {
                       onChange={handle_signupFormField_login}
                     />
                   </div>
+
+                  {/* SIGNUP */}
                   <div className="row">
                     <label htmlFor="signupFormField_password1">
                       Password 1
@@ -265,7 +311,6 @@ function App() {
               </form>
             </>
           )}
-
           {currentUserIsInGroup("loggedOutUsers") && (
             <div className="panel">Welcome to this site.</div>
           )}
@@ -280,13 +325,46 @@ function App() {
           {currentUserIsInGroup("members") && (
             <>
               <div className="panel">
-                <h3>Current Site News for Members</h3>
-                <p>
-                  Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-                  Neque explicabo voluptate quia asperiores sit! Vel molestiae
-                  labore ratione non dolores? Exercitationem soluta quo id
-                  laboriosam, autem perferendis? Fuga, suscipit ipsa.
-                </p>
+                <h3>Admin Section:</h3>
+                <div>
+                  <button>Create users</button>
+                </div>
+                <div>
+                  <button>Edit users</button>
+                </div>
+                <div>
+                  <button>Delete users</button>
+                </div>
+                <h4>{notYetApprovedUsers.length} Users to Approve:</h4>
+                <table className="minimalistBlack">
+                  <thead>
+                    <tr>
+                      <th>First Name</th>
+                      <th>Last Name</th>
+                      <th></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {notYetApprovedUsers.map((user, index) => {
+                      return (
+                        <tr key={index}>
+                          <td>{user.firstName}</td>
+                          <td>{user.lastName}</td>
+                          <td>
+                            <button>Approve</button>
+                          </td>
+                          <td>
+                            <button
+                              onClick={() => handleApproveUserButton(user._id)}
+                            >
+                              Approve
+                            </button>
+                          </td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
               </div>
             </>
           )}
