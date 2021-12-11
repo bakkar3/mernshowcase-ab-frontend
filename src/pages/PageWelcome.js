@@ -1,9 +1,20 @@
+import { useContext } from "react";
+import AppContext from "../AppContext";
+
 const PageWelcome = () => {
-	return (
-	    <>
-	    This is the welcome page.
-	    </>
-	)
-    }
-     
-    export default PageWelcome;
+  const { siteStatus, toggleStatus } = useContext(AppContext);
+
+  return (
+    <div>
+      <p>
+        The current status is: <span className="highlight">{siteStatus}</span>
+      </p>
+      <p>
+        <button onClick={toggleStatus}>Toggle Status</button>
+      </p>
+      This is the welcome page
+    </div>
+  );
+};
+
+export default PageWelcome;

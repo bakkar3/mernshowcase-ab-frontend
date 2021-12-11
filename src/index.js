@@ -1,12 +1,15 @@
 import { BrowserRouter } from "react-router-dom";
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './reset.css';
-import App from './App';
+import { AppProvider } from "./AppContext.js";
+import React from "react";
+import ReactDOM from "react-dom";
+import "./reset.css";
+import App from "./App";
 
 ReactDOM.render(
-  <BrowserRouter>
-    <App />
-  </BrowserRouter>,
-  document.getElementById('root')
+  <AppProvider>
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
+  </AppProvider>,
+  document.getElementById("root")
 );
