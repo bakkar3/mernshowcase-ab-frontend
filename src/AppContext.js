@@ -10,7 +10,8 @@ export const AppProvider = ({ children }) => {
     }
  
     return (
-        <AppContext.Provider value={{ siteStatus, setSiteStatus, toggleStatus }} > {children}
+        <AppContext.Provider value={{ siteStatus, setSiteStatus, toggleStatus }}> 
+	{children}
         </AppContext.Provider>
     );
 };
