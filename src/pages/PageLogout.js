@@ -3,7 +3,7 @@ import AppContext from "../AppContext";
 import { useNavigate } from "react-router-dom";
 
 const PageLogout = () => {
-  const { setCurrentUser, currentUserIsInGroup } = useContext(AppContext);
+  const { setCurrentUser } = useContext(AppContext);
   const navigate = useNavigate();
 
   const handle_logoutForm_logoutButton = async (e) => {
@@ -23,16 +23,10 @@ const PageLogout = () => {
   };
 
   return (
-    <>
-      {currentUserIsInGroup("loggedInUsers") && (
-        <>
-          <p>To confirm logout, please click the button:</p>
-          <div>
-            <button onClick={handle_logoutForm_logoutButton}>Logout</button>
-          </div>
-        </>
-      )}
-    </>
+    <div>
+      <p>To confirm logout, please click the button:</p>
+      <button onClick={handle_logoutForm_logoutButton}>Logout</button>
+    </div>
   );
 };
 

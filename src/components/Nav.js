@@ -11,14 +11,28 @@ const Nav = () => {
         <li>
           <NavLink to="/">Welcome</NavLink>
         </li>
-        <li>
-          <NavLink to="login">
-            {currentUserIsInGroup("loggedOutUsers") ? "Login" : "Logout"}
-          </NavLink>
-        </li>
+
+        {currentUserIsInGroup("loggedOutUsers") && (
+          <li>
+            <NavLink to="login">Login</NavLink>
+          </li>
+        )}
+
         {currentUserIsInGroup("loggedOutUsers") && (
           <li>
             <NavLink to="register">Register</NavLink>
+          </li>
+        )}
+
+        {currentUserIsInGroup("admins") && (
+          <li>
+            <NavLink to="admin">Admin</NavLink>
+          </li>
+        )}
+
+        {currentUserIsInGroup("loggedINUser") && (
+          <li>
+            <NavLink to="logout">Logout</NavLink>
           </li>
         )}
       </ul>

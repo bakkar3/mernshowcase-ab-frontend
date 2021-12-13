@@ -3,9 +3,8 @@ import AppContext from "../AppContext";
 import { useNavigate } from "react-router-dom";
 
 const PageRegister = () => {
-  // const { siteStatus, toggleStatus } = useContext(AppContext);
   const navigate = useNavigate();
-  const { setCurrentUser, currentUserIsInGroup } = useContext(AppContext);
+  const { setCurrentUser } = useContext(AppContext);
 
   const [signupFormField_login, setSignupFormField_login] = useState("");
   const [signupFormField_password1, setSignupFormField_password1] =
@@ -78,72 +77,68 @@ const PageRegister = () => {
 
   return (
     <div>
-      {currentUserIsInGroup("loggedOutUsers") && (
-        <form>
-          <fieldset>
-            <legend>Signup</legend>
-            <div className="row">
-              <label htmlFor="signupFormField_login">Login</label>
-              <input
-                type="text"
-                id="signupFormField_login"
-                value={signupFormField_login}
-                onChange={handle_signupFormField_login}
-              />
-            </div>
-
-            {/* SIGNUP */}
-            <div className="row">
-              <label htmlFor="signupFormField_password1">Password 1</label>
-              <input
-                type="password"
-                id="signupFormField_password1"
-                value={signupFormField_password1}
-                onChange={handle_signupFormField_password1}
-              />
-            </div>
-            <div className="row">
-              <label htmlFor="signupFormField_password2">Password 2</label>
-              <input
-                type="password"
-                id="signupFormField_password2"
-                value={signupFormField_password2}
-                onChange={handle_signupFormField_password2}
-              />
-            </div>
-            <div className="row">
-              <label htmlFor="signupFormField_firstName">First Name</label>
-              <input
-                type="text"
-                id="signupFormField_firstName"
-                value={signupFormField_firstName}
-                onChange={handle_signupFormField_firstName}
-              />
-            </div>
-            <div className="row">
-              <label htmlFor="signupFormField_lastName">Last Name</label>
-              <input
-                type="text"
-                id="signupFormField_lastName"
-                value={signupFormField_lastName}
-                onChange={handle_signupFormField_lastName}
-              />
-            </div>
-            <div className="row">
-              <label htmlFor="signupFormField_email">E-Mail</label>
-              <input
-                type="text"
-                id="signupFormField_email"
-                value={signupFormField_email}
-                onChange={handle_signupFormField_email}
-              />
-            </div>
-            <div className="buttonRow">
-              <button onClick={handle_signupForm_signupButton}>Submit</button>
-            </div>
-          </fieldset>
-        </form>
-      )}
+      <form>
+        <fieldset>
+          <legend>Signup</legend>
+          <div className="row">
+            <label htmlFor="signupFormField_login">Login</label>
+            <input
+              type="text"
+              id="signupFormField_login"
+              value={signupFormField_login}
+              onChange={handle_signupFormField_login}
+            />
+          </div>
+          <div className="row">
+            <label htmlFor="signupFormField_password1">Password 1</label>
+            <input
+              type="password"
+              id="signupFormField_password1"
+              value={signupFormField_password1}
+              onChange={handle_signupFormField_password1}
+            />
+          </div>
+          <div className="row">
+            <label htmlFor="signupFormField_password2">Password 2</label>
+            <input
+              type="password"
+              id="signupFormField_password2"
+              value={signupFormField_password2}
+              onChange={handle_signupFormField_password2}
+            />
+          </div>
+          <div className="row">
+            <label htmlFor="signupFormField_firstName">First Name</label>
+            <input
+              type="text"
+              id="signupFormField_firstName"
+              value={signupFormField_firstName}
+              onChange={handle_signupFormField_firstName}
+            />
+          </div>
+          <div className="row">
+            <label htmlFor="signupFormField_lastName">Last Name</label>
+            <input
+              type="text"
+              id="signupFormField_lastName"
+              value={signupFormField_lastName}
+              onChange={handle_signupFormField_lastName}
+            />
+          </div>
+          <div className="row">
+            <label htmlFor="signupFormField_email">E-Mail</label>
+            <input
+              type="text"
+              id="signupFormField_email"
+              value={signupFormField_email}
+              onChange={handle_signupFormField_email}
+            />
+          </div>
+          <div className="buttonRow">
+            <button onClick={handle_signupForm_signupButton}>Submit</button>
+          </div>
+        </fieldset>
+      </form>
     </div>
   );
 };

@@ -4,6 +4,8 @@ import Nav from "./components/Nav";
 import PageWelcome from "./pages/PageWelcome";
 import PageRegister from "./pages/PageRegister";
 import PageLogin from "./pages/PageLogin";
+import PageLogout from "./pages/PageLogout";
+import PageAdmin from "./pages/PageAdmin";
 import "./App.scss";
 
 import { useContext } from "react";
@@ -37,17 +39,28 @@ function App() {
       {currentUser.login && (
         <>
           <h1>MERN Showcase App</h1>
-          {currentUserIsInGroup("loggedInUsers") && (
+          {currentUserIsInGroup("loggedINUser") && (
             <h2>
               {currentUser.firstName} {currentUser.lastName}
             </h2>
           )}
           <Nav />
+
           <div className="content">
             <Routes>
               <Route path="/" element={<PageWelcome />} />
-              <Route path="register" element={<PageRegister />} />
-              <Route path="login" element={<PageLogin />} />
+              {currentUserIsInGroup("loggedOutUsers") && (
+                <Route path="register" element={<PageRegister />} />
+              )}
+              {currentUserIsInGroup("loggedOutUsers") && (
+                <Route path="login" element={<PageLogin />} />
+              )}
+              {currentUserIsInGroup("admins") && (
+                <Route path="admin" element={<PageAdmin />} />
+              )}
+              {currentUserIsInGroup("loggedINUser") && (
+                <Route path="logout" element={<PageLogout />} />
+              )}
             </Routes>
           </div>
         </>
