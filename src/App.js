@@ -39,7 +39,7 @@ function App() {
       {currentUser.login && (
         <>
           <h1>MERN Showcase App</h1>
-          {currentUserIsInGroup("loggedINUser") && (
+          {currentUserIsInGroup("loggedInUsers") && (
             <h2>
               {currentUser.firstName} {currentUser.lastName}
             </h2>
@@ -58,7 +58,7 @@ function App() {
               {currentUserIsInGroup("admins") && (
                 <Route path="admin" element={<PageAdmin />} />
               )}
-              {currentUserIsInGroup("loggedINUser") && (
+              {currentUserIsInGroup("loggedInUsers") && (
                 <Route path="logout" element={<PageLogout />} />
               )}
             </Routes>

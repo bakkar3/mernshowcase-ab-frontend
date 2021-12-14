@@ -30,7 +30,7 @@ const Nav = () => {
           </li>
         )}
 
-        {currentUserIsInGroup("loggedINUser") && (
+        {currentUserIsInGroup("loggedInUsers") && (
           <li>
             <NavLink to="logout">Logout</NavLink>
           </li>
