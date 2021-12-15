@@ -39,6 +39,7 @@ const PageRegister = () => {
   };
   const handle_signupFormField_email = (e) => {
     let email = e.target.value;
+    // const mailformat = /^[a-z0-9_.-]{2,}@[a-z]{2,}\.[a-z]{2,}$/gi;
     setSignupFormField_email(email);
   };
   const handle_signupForm_signupButton = async (e) => {
@@ -59,7 +60,7 @@ const PageRegister = () => {
       }),
     };
     const response = await fetch(
-      "http://localhost:3003/signup",
+      `${process.env.REACT_APP_BACKEND_URL}/signup`,
       requestOptions
     );
     if (response.ok) {

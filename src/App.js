@@ -22,8 +22,9 @@ function App() {
         credentials: "include",
       };
 
+      
       const response = await fetch(
-        "http://localhost:3003/currentuser",
+        `${process.env.REACT_APP_BACKEND_URL}/currentuser`,
         requestOptions
       );
 

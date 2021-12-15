@@ -18,7 +18,7 @@ const PageAdmin = () => {
     };
     const response = await fetch(
       // `${process.env.REACT_APP_BACKEND_URL}/approveuser`,
-      "http://localhost:3003/approveuser",
+      `${process.env.REACT_APP_BACKEND_URL}/approveuser`,
       requestOptions
     );
     if (response.ok) {
