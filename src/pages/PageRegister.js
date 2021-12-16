@@ -21,10 +21,10 @@ const PageRegister = () => {
     setFormIsValid(
       firstNameIsValid &&
       lastNameIsValid &&
-      emailIsValid 
-      // password1 === passsword2
+      emailIsValid &&
+      signupFormField_password1 === signupFormField_password2
     )
-  }, [firstNameIsValid, lastNameIsValid, emailIsValid]);
+  }, [firstNameIsValid, lastNameIsValid, emailIsValid, signupFormField_password1, signupFormField_password2]);
 
   // SIGNUP FORM FIELD HANDLERS
   const handle_signupFormField_login = (e) => {
