@@ -21,7 +21,6 @@ function App() {
         method: "GET",
         credentials: "include",
       };
-
       
       const response = await fetch(
         `${process.env.REACT_APP_BACKEND_URL}/currentuser`,

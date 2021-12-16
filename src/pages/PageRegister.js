@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useState, useEffect } from "react";
 import AppContext from "../AppContext";
 import { useNavigate } from "react-router-dom";
 
@@ -7,14 +7,24 @@ const PageRegister = () => {
   const { setCurrentUser } = useContext(AppContext);
 
   const [signupFormField_login, setSignupFormField_login] = useState("");
-  const [signupFormField_password1, setSignupFormField_password1] =
-    useState("");
-  const [signupFormField_password2, setSignupFormField_password2] =
-    useState("");
-  const [signupFormField_firstName, setSignupFormField_firstName] =
-    useState("");
+  const [signupFormField_password1, setSignupFormField_password1] = useState("");
+  const [signupFormField_password2, setSignupFormField_password2] = useState("");
+  const [signupFormField_firstName, setSignupFormField_firstName] = useState("");
   const [signupFormField_lastName, setSignupFormField_lastName] = useState("");
   const [signupFormField_email, setSignupFormField_email] = useState("");
+
+  const [firstNameIsValid, setFirstNameIsValid] = useState(false);
+  const [lastNameIsValid, setLastNameIsValid] = useState(false);
+  const [formIsValid, setFormIsValid] = useState(false);
+  const [emailIsValid, setEmailIsValid] = useState(false);
+  useEffect(() => {
+    setFormIsValid(
+      firstNameIsValid &&
+      lastNameIsValid &&
+      emailIsValid 
+      // password1 === passsword2
+    )
+  }, [firstNameIsValid, lastNameIsValid, emailIsValid]);
 
   // SIGNUP FORM FIELD HANDLERS
   const handle_signupFormField_login = (e) => {
@@ -31,15 +41,17 @@ const PageRegister = () => {
   };
   const handle_signupFormField_firstName = (e) => {
     let firstName = e.target.value;
+    firstName.length > 1 && firstName.length <= 20 ? setFirstNameIsValid(true) : setFirstNameIsValid(false);
     setSignupFormField_firstName(firstName);
   };
   const handle_signupFormField_lastName = (e) => {
     let lastName = e.target.value;
+    lastName.length > 1 && lastName.length <= 20 ? setLastNameIsValid(true) : setLastNameIsValid(false);
     setSignupFormField_lastName(lastName);
   };
   const handle_signupFormField_email = (e) => {
     let email = e.target.value;
-    // const mailformat = /^[a-z0-9_.-]{2,}@[a-z]{2,}\.[a-z]{2,}$/gi;
+    email && /^[a-z0-9_.-]{2,}@[a-z]{2,}\.[a-z]{2,}$/gi.test(email) ? setEmailIsValid(true) : setEmailIsValid(false);
     setSignupFormField_email(email);
   };
   const handle_signupForm_signupButton = async (e) => {
@@ -59,10 +71,7 @@ const PageRegister = () => {
         },
       }),
     };
-    const response = await fetch(
-      `${process.env.REACT_APP_BACKEND_URL}/signup`,
-      requestOptions
-    );
+    const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/signup`, requestOptions);
     if (response.ok) {
       const _currentUser = await response.json();
       setCurrentUser((prev) => ({ ...prev, ..._currentUser }));
@@ -136,7 +145,7 @@ const PageRegister = () => {
             />
           </div>
           <div className="buttonRow">
-            <button onClick={handle_signupForm_signupButton}>Submit</button>
+            <button disabled={!formIsValid} onClick={handle_signupForm_signupButton}>Submit</button>
           </div>
         </fieldset>
       </form>
